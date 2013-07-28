@@ -1,0 +1,81 @@
+[ng-cloak] {
+    display: none;
+}
+
+body {
+    font-family: Ubuntu, Verdana, Arial, sans-serif;
+    background-color: #eeeeee;
+}
+
+button {
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 300%;
+    margin:0 0 10px;
+    color: #333333;
+}
+
+#todo-form input {
+    border-radius:0;
+    border:0;
+    font-size: 140%;
+    width:100%;
+}
+
+#todo-form button {
+    display: none;
+}
+
+#todoapp {
+    width:660px;
+    margin:20px auto;
+    border:1px solid #999999;
+    padding: 10px 15px 20px;
+    box-shadow: 2px 2px 2px #999999;
+    background-color: #ffffff;
+}
+
+#todo-list {
+    list-style-type: none;
+    padding:0;
+}
+
+#todo-list li {
+    border:0px dotted #999999;
+    border-top-width: 1px;
+    padding:10px 80px 10px 0;
+    position: relative;
+    font-size: 120%;
+}
+
+#todo-list li:last-child {
+    border-bottom-width: 1px;
+}
+
+#todo-list .remove {
+    position: absolute;
+    right:0;
+    top:10px;
+    display: none;
+    background-color: #ffffff;
+    border-radius:50%;
+    border:2px solid #666666;
+    color:#666666;
+    padding:0 2px;
+}
+
+#todo-list li:hover .remove {
+    display: inline;
+}
+
+#todo-list .completed {
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+#todo-count {
+    color:#666666;
+    font-size: 90%;
+}
