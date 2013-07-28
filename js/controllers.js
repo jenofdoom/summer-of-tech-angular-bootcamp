@@ -3,7 +3,6 @@
 todoList.controller('TodoCtrl', function TodoCtrl($scope, todoStorage) {
 
     $scope.todos = todoStorage.get();
-    $scope.newTodo = '';
 
     $scope.addTodo = function() {
         var newTodo = $scope.newTodo.trim();
