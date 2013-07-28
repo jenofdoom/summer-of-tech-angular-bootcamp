@@ -1,0 +1,17 @@
+body {
+    font-family: Verdana, Arial, sans-serif;
+}
+
+#todoapp {
+    width:690px;
+    margin:10px auto;
+}
+
+#todo-list {
+    list-style-type: none;
+    padding:0;
+}
+
+#todo-list .completed {
+    text-decoration: line-through;
+}
