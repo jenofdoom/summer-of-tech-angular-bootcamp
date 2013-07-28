@@ -1,6 +1,6 @@
 'use strict';
 
-todoList.controller('TodoCtrl', function TodoCtrl($scope, $location, todoStorage) {
+todoList.controller('TodoCtrl', function TodoCtrl($scope, todoStorage) {
 
     $scope.todos = todoStorage.get();
     $scope.newTodo = '';
