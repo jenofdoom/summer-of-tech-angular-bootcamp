@@ -60,26 +60,26 @@ We should get rid of any whitespace at the beginning or end of the variable. We 
 
 From now on in the addTodo function we can use newTodo to refer to the data we're lokking to store. Now that we have gotten rid of any whitespace, is there any data left? '    thing     ' would have become 'thing', but '      ' would become '', which isnt' really worth storing. Let's not bother trying to store empty strings, we can just return from the function early, using an if statement to check if the todo has not (that's what the ! does) got a length.
 
-  if (!newTodo.length) {
-      return;
-  }
+    if (!newTodo.length) {
+        return;
+    }
 
 If we got past that point okay, we should have a string of text to store into our todo list. First, we need to take the current list of todos, which is `$scope.todos`, and add the new one. `$scope.todos` is an array of objects, so we can add to it using another native JavaScript method, `push()`. This adds an item to the end of the array you call it on.
 
-  $scope.todos.push({
-      title: newTodo,
-      completed: false
-  });
+    $scope.todos.push({
+        title: newTodo,
+        completed: false
+    });
 
 You can see that inside our push statement we are making a new object. That's the part inside the curly braces. We give it a couple of properties, a title (which we set the value of to our new todo variable), and a completed status (which we set to be a boolean with a false state). JavaScript is 'loosely' typed - we don't have to specify that any particular variable or property is a particular type of thing, like an integer or a string - it will make an educated guess on our behalf depending on what we provide as input. We can use the completed status later so that we can 'check off' items on our list.
 
 Now the list of todos has our new todo in it, we need to update the stored list. Rather than just adding the new item like we would do if we were talking to a database, we're just going to overwrite the entirety of the list with our updated copy. Because we already have our storage service set up, all we need to do is use an Angular method, `put`, like so:
 
-  todoStorage.put($scope.todos);
+    todoStorage.put($scope.todos);
 
 Finally, the last thing we need to do is empty out the input box that still has the text of our new todo in it, so that we can immediately add another item. Because of the one to one binding between the input box and Angular's `$scope.newTodo`, all we need to do is set that to be an empty string:
 
-  $scope.newTodo = '';
+    $scope.newTodo = '';
 
 And that's it for our add new todo function. You can test that it's working by trying to add some todos - the data for them should show up on the page (although in quite a messy way - we'll look at tidying that up next), and we can tell it's being stored properly because if we referesh the page (or even close the browser and reopen the page) the list with our new items is still there.
 
@@ -87,28 +87,28 @@ And that's it for our add new todo function. You can test that it's working by t
 
 So now we have some todos, we can see they are being output in a very crude way in the HTML. The `$scope.todos` array is just being output via the `{{ todos }}` line in the HTML. Let's delete that line and replace it with something better. We should output the list into a suitable HTML structure, namely an unordered list, `ul`. Within the containing `ul` tags, we have one set of list item (`li`) tags per todo. And let's give the ul element a css ID so we can refer to it later.
 
-  <ul id="todo-list">
-      <li>
-          todo text
-      </li>
-      <li>
-          other todo text
-      </li>
-  </ul>
+    <ul id="todo-list">
+        <li>
+            todo text
+        </li>
+        <li>
+            other todo text
+        </li>
+    </ul>
 
 We have a problem though - we can't hand write each li tag ourselves because we don't know in advance how many todos there will be in the list. We need a better solution - we need Angular to create the markup for us, depending on how many items in the list there are. We can do this with a special Angular directive, `ng-repeat`, which is an attribute we will add to the section of markup we want to create repeatedly, the `li` tag. We then need to tell the ng-repeat directive what we want to iterate over (that's easy, we want to go through the `todos`), and what we want to call each item so we can refer to it through each iteration of the loop (it makes sense to call each individual item in the todos a `todo`).
 
-  <li ng-repeat="todo in todos">
-      {{ todo }}
-  </li>
+    <li ng-repeat="todo in todos">
+        {{ todo }}
+    </li>
 
 We're most of the way there now. Each todo gets it's own `li` element. However we don't want to just spit out the whole todo object, we only care about the title. We can refer to the title property of the object by seperating the property from the object with a period, e.g. `todo.title`. So, putting it all together, we should end up with a block in our HTML that looks something like this:
 
-  <ul id="todo-list">
-      <li ng-repeat="todo in todos">
-          {{ todo.title }}
-      </li>
-  </ul>
+    <ul id="todo-list">
+        <li ng-repeat="todo in todos">
+            {{ todo.title }}
+        </li>
+    </ul>
 
 ### Removing a todo
 
@@ -116,66 +116,65 @@ Next up, removing a todo, seeing as a list we can only ever add things to and ne
 
 For this reason, whenever we call the function, we will have to pass it an argument to tell it what todo we want to remove. The logical place to call this function from, then, is inside our list of todos. We'll give each todo a button that the user can click to remove it. So let's modify our template to add that:
 
-  <li ng-repeat="todo in todos">
-      {{ todo.title }}
-      <button ng-click="removeTodo(todo)">✘</button>
-  </li>
+    <li ng-repeat="todo in todos">
+        {{ todo.title }}
+        <button ng-click="removeTodo(todo)">✘</button>
+    </li>
 
 When the button gets clicked, the `removeTodo` function will be called, and that particular todo obect will be passed into it. That should be all we need in the template, now let's go and add the corresponding function into our controller. Create a new function after the addTodo function. Unlike the addTodo function, the parentheses after the function keyword aren't empty, because this time we're passing in an object and we should give it a name to use within the function. We can just call it `todo`.
 
-  $scope.removeTodo = function(todo) {
-
-  };
+    $scope.removeTodo = function(todo) {
+    };
 
 Now, within the function we need to remove this todo from the list of todos. In order to remove it we first need to work out where it is in the array. We can find out it's position using another native JavaScript method, `indexOf()`. When we run indexOf against an array, supplying an item we are looking for within the array, indexOf will return to us its numeric position within the array (or a -1 if it can't find it anywhere). Let's create a new variable to store the result of that in:
 
-  var todoPosition = $scope.todos.indexOf(todo);
+    var todoPosition = $scope.todos.indexOf(todo);
 
 Now we know where it is in the array, we can use another built in array method to remove it, `splice()`. Splice takes two arguments, the first argument is the position in the array, and the second argument is how many items you want to remove from that point. We only ever want to remove one todo at once, so our second argument with be 1. The first argument will be the variable we stored a minute ago.
 
-  $scope.todos.splice(todoPosition, 1);
+    $scope.todos.splice(todoPosition, 1);
 
 Now we've updated our list of todos, the only thing remaining to do is update our localstorage version of them again.
 
-  todoStorage.put($scope.todos);
+    todoStorage.put($scope.todos);
 
 ### Marking a todo as completed
 
 Our todo application can now add and remove todos. Another bit of functionality the might be nice would be the abilty to 'cross off' items without removing them totally - that's a much better way of showing that we have gotten something done! For this feature, we will obviously need a control on the page for each todo that we can interact with to mark it completed. We could use another button, but perhaps a better fit is a checkbox that we can tick to indicate that something is done. Let's modify the list block in our `index.html` to include this checkbox:
 
-  <li ng-repeat="todo in todos">
-      <label>
-          <input type="checkbox">
-          {{ todo.title }}
-      </label>
-      <button class="remove" ng-click="removeTodo(todo)">✘</button>
-  </li>
+    <li ng-repeat="todo in todos">
+        <label>
+            <input type="checkbox">
+            {{ todo.title }}
+        </label>
+        <button class="remove" ng-click="removeTodo(todo)">✘</button>
+    </li>
 
 Note that we're also adding in a label element - this is a good idea because it makes the markup more meangful by associating the text within the label tag (in this instance, the todo text) to the input element. It also make it so that you can click on the label text to control the checkbox, rather than just on the checkbox itself which is a bit fiddly to click on its own.
 
 We already have a property on our todo object that we can use to tell if the todo is completed or not, we set it to false when we originally created the todo object. Now we just need to tie in this tickbox to that property. We can use `ng-model` again for that.
 
-  <input type="checkbox" ng-model="todo.completed">
+    <input type="checkbox" ng-model="todo.completed">
 
 Great! We now have a way fo making the completed propety true or false by checking or unchecking the tickbox. But how do we display the fact that the todo is completed to the user? We should probably use some CSS styling. In fact, there is already a CSS rule set up, in `css/main.css`, that looks like the following:
 
-  #todo-list .completed {
-      text-decoration: line-through;
-  }
+    #todo-list .completed {
+        text-decoration: line-through;
+    }
 
 In order for that to work, we're going to need to get that `completed` class into the HTML for that todo item in the list. We can do this using another Angular directive which is design to help us conditionally add classes to DOM elements, which unsuprisingly is called `ng-class`. We need to supply ng-class an object with the names of the classes as the properties, with a variable in the scope we want to evaluate as the value. If it evaluates as true, the class name will be added. If it's false, it won't be. And this will update itself dynamically as the scope variable we're evaluating changes. In our case this will look like so:
 
-  <li ng-repeat="todo in todos" ng-class="{completed: todo.completed}">
+    <li ng-repeat="todo in todos" ng-class="{completed: todo.completed}">
 
 That should work. Unfortunately, we have one bug... if we mark something as completed, and refresh the page, it won't remember that we marked it as completed. That's because we're not updating localStorage when something gets ticked or unticked. There are a few ways of making sure the stored version of the todos gets updates, but probably the simplest is for us to add one more function, that gets called whenever the checkbox gets clicked, like so:
 
-  <input type="checkbox" ng-model="todo.completed" ng-click="updateCompleted()">
+    <input type="checkbox" ng-model="todo.completed" ng-click="updateCompleted()">
 
 The function in the controller doesn't have to do very much, it just has to update the todos in localstorage.
 
-  $scope.updateCompleted = function() {
-      todoStorage.put($scope.todos);
-  }
+    $scope.updateCompleted = function() {
+        todoStorage.put($scope.todos);
+    }
 
 ### Styling the application
 
