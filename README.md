@@ -56,7 +56,7 @@ So what do we want to do when the form is saved? We want to take the string from
 
 We should get rid of any whitespace at the beginning or end of the variable. We can do this with a native javascript method, `trim()`. And let's create a new variable to refer to our cleaned up input.
 
-  var newTodo = $scope.newTodo.trim();
+    var newTodo = $scope.newTodo.trim();
 
 From now on in the addTodo function we can use newTodo to refer to the data we're lokking to store. Now that we have gotten rid of any whitespace, is there any data left? '    thing     ' would have become 'thing', but '      ' would become '', which isnt' really worth storing. Let's not bother trying to store empty strings, we can just return from the function early, using an if statement to check if the todo has not (that's what the ! does) got a length.
 
