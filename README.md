@@ -174,7 +174,7 @@ That should work. Unfortunately, we have one bug... if we mark something as comp
 
     <input type="checkbox" ng-model="todo.completed" ng-change="updateCompleted()">
 
-Notice that we're using a new directive here, ng-change. We could have tried to use ng-click, but that would get called too early, before the model finised updating, which would cause us other problems.
+Notice that we're using a new directive here, ng-change. We could have tried to use ng-click, but that would get called too early, before the model finished updating, which would cause us other problems.
 
 The function in the controller doesn't have to do very much, it just has to update the todos in localstorage.
 
