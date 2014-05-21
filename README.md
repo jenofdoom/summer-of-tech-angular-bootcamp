@@ -1,7 +1,7 @@
 summer-of-tech-js-bootcamp
 ==========================
 
-This JavaScript tutorial for Summer of Tech 2013 Bootcamps is based heavily on the [AngularJS example](https://github.com/tastejs/todomvc/tree/gh-pages/architecture-examples/angularjs) on the [todomvc](http://todomvc.com/architecture-examples/angularjs/) site. This version is stripped down somewhat - it's an introduction as opposed to a features demo.
+This JavaScript tutorial for Summer of Tech Bootcamp is based heavily on the [AngularJS example](https://github.com/tastejs/todomvc/tree/gh-pages/architecture-examples/angularjs) on the [todomvc](http://todomvc.com/architecture-examples/angularjs/) site. This version is stripped down somewhat - it's an introduction as opposed to a features demo.
 
 The [master branch of this repo](https://github.com/jenofdoom/summer-of-tech-js-bootcamp) contains the 'stub' of our todo application. It's a starting point, it doesn't totally work yet. Making it work is up to you. Read on to find out how to accomplish this.
 
