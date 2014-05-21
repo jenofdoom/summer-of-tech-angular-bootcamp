@@ -110,6 +110,10 @@ We're most of the way there now. Each todo gets it's own `li` element. However w
         </li>
     </ul>
 
+There is one other thing that we need to add to our ng-repeat directive for this application - ng-repeat doesn't like being asked to output lists with duplicate items in them. This normally isn't a problem because items in your list would normally have unique id's, but in our case you might have todo items with the same text that would case an error. You can try this now - try adding an entry 'one' and then another entry 'one' and then refreshing the page. To fix this we can add an extra bit to our ng-repeat so that it can handle duplicates. Change the the ng-repeat line as follows:
+
+    <li ng-repeat="todo in todos track by $index">
+
 ### Removing a todo
 
 Next up, removing a todo, seeing as a list we can only ever add things to and never remove things from sounds like a nightmare. This is pretty much the opposite of adding a todo, but in many ways it's quite similar. We'll need to have a function to update the list of todos, and then we'll need to update localstorage. One difference though, is that we need a way of refering to a specific todo that already exists inside the the array of todos.
@@ -166,15 +170,18 @@ In order for that to work, we're going to need to get that `completed` class int
 
     <li ng-repeat="todo in todos" ng-class="{completed: todo.completed}">
 
-That should work. Unfortunately, we have one bug... if we mark something as completed, and refresh the page, it won't remember that we marked it as completed. That's because we're not updating localStorage when something gets ticked or unticked. There are a few ways of making sure the stored version of the todos gets updates, but probably the simplest is for us to add one more function, that gets called whenever the checkbox gets clicked, like so:
+That should work. Unfortunately, we have one bug... if we mark something as completed, and refresh the page, it won't remember that we marked it as completed. That's because we're not updating localStorage when something gets ticked or unticked. There are a few ways of making sure the stored version of the todos gets updates, but probably the simplest is for us to add one more function, that gets called whenever the checkbox value gets updated, like so:
 
-    <input type="checkbox" ng-model="todo.completed" ng-click="updateCompleted()">
+    <input type="checkbox" ng-model="todo.completed" ng-change="updateCompleted()">
+
+Notice that we're using a new directive here, ng-change. We could have tried to use ng-click, but that would get called too early, before the model finised updating, which would cause us other problems.
 
 The function in the controller doesn't have to do very much, it just has to update the todos in localstorage.
 
     $scope.updateCompleted = function() {
         todoStorage.put($scope.todos);
     }
+
 
 ### Styling the application
 
