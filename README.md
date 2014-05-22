@@ -58,7 +58,7 @@ We should get rid of any whitespace at the beginning or end of the variable. We 
 
     var newTodo = $scope.newTodo.trim();
 
-From now on in the addTodo function we can use newTodo to refer to the data we're lokking to store. Now that we have gotten rid of any whitespace, is there any data left? '    thing     ' would have become 'thing', but '      ' would become '', which isnt' really worth storing. Let's not bother trying to store empty strings, we can just return from the function early, using an if statement to check if the todo has not (that's what the ! does) got a length.
+From now on in the addTodo function we can use newTodo to refer to the data we're lokking to store. Now that we have gotten rid of any whitespace, is there any data left? `'    thing     '` would have become `'thing'`, but `'      '` would become `''`, which isn't really worth storing. Let's not bother trying to store empty strings, we can just return from the function early, using an if statement to check if the todo has not (that's what the ! does) got a length.
 
     if (!newTodo.length) {
         return;
@@ -81,7 +81,7 @@ Finally, the last thing we need to do is empty out the input box that still has 
 
     $scope.newTodo = '';
 
-And that's it for our add new todo function. You can test that it's working by trying to add some todos - the data for them should show up on the page (although in quite a messy way - we'll look at tidying that up next), and we can tell it's being stored properly because if we referesh the page (or even close the browser and reopen the page) the list with our new items is still there.
+And that's it for our add new todo function. You can test that it's working by trying to add some todos - the data for them should show up on the page (although in quite a messy way - we'll look at tidying that up next), and we can tell it's being stored properly because if we refresh the page (or even close the browser and reopen the page) the list with our new items in is still there.
 
 ### Looping through all the todos to display them
 
@@ -116,7 +116,7 @@ There is one other thing that we need to add to our ng-repeat directive for this
 
 ### Removing a todo
 
-Next up, removing a todo, seeing as a list we can only ever add things to and never remove things from sounds like a nightmare. This is pretty much the opposite of adding a todo, but in many ways it's quite similar. We'll need to have a function to update the list of todos, and then we'll need to update localstorage. One difference though, is that we need a way of refering to a specific todo that already exists inside the the array of todos.
+Next up, removing a todo, seeing as a list we can only ever add things to and never remove things from sounds like a nightmare. This is pretty much the opposite of adding a todo, but in many ways it's quite similar. We'll need to have a function to update the list of todos, and then we'll need to update localstorage. One difference though, is that we need a way of referring to a specific todo that already exists inside the the array of todos.
 
 For this reason, whenever we call the function, we will have to pass it an argument to tell it what todo we want to remove. The logical place to call this function from, then, is inside our list of todos. We'll give each todo a button that the user can click to remove it. So let's modify our template to add that:
 
@@ -125,7 +125,7 @@ For this reason, whenever we call the function, we will have to pass it an argum
         <button ng-click="removeTodo(todo)">✘</button>
     </li>
 
-When the button gets clicked, the `removeTodo` function will be called, and that particular todo obect will be passed into it. That should be all we need in the template, now let's go and add the corresponding function into our controller. Create a new function after the addTodo function. Unlike the addTodo function, the parentheses after the function keyword aren't empty, because this time we're passing in an object and we should give it a name to use within the function. We can just call it `todo`.
+When the button gets clicked, the `removeTodo` function will be called, and that particular todo object will be passed into it. That should be all we need in the template, now let's go and add the corresponding function into our controller. Create a new function after the addTodo function. Unlike the addTodo function, the parentheses after the function keyword aren't empty, because this time we're passing in an object and we should give it a name to use within the function. We can just call it `todo`.
 
     $scope.removeTodo = function(todo) {
     };
@@ -134,7 +134,7 @@ Now, within the function we need to remove this todo from the list of todos. In 
 
     var todoPosition = $scope.todos.indexOf(todo);
 
-Now we know where it is in the array, we can use another built in array method to remove it, `splice()`. Splice takes two arguments, the first argument is the position in the array, and the second argument is how many items you want to remove from that point. We only ever want to remove one todo at once, so our second argument with be 1. The first argument will be the variable we stored a minute ago.
+Now we know where it is in the array, we can use another built in array method to remove it, `splice()`. Splice takes two arguments, the first argument is the position in the array, and the second argument is how many items you want to remove from that point. We only ever want to remove one todo at once, so our second argument will be 1. The first argument will be the variable we stored a minute ago.
 
     $scope.todos.splice(todoPosition, 1);
 
@@ -166,7 +166,7 @@ Great! We now have a way fo making the completed propety true or false by checki
         text-decoration: line-through;
     }
 
-In order for that to work, we're going to need to get that `completed` class into the HTML for that todo item in the list. We can do this using another Angular directive which is design to help us conditionally add classes to DOM elements, which unsuprisingly is called `ng-class`. We need to supply ng-class an object with the names of the classes as the properties, with a variable in the scope we want to evaluate as the value. If it evaluates as true, the class name will be added. If it's false, it won't be. And this will update itself dynamically as the scope variable we're evaluating changes. In our case this will look like so:
+In order for that to work, we're going to need to get that `completed` class into the HTML for that todo item in the list. We can do this using another Angular directive which is design to help us conditionally add classes to DOM elements, which unsuprisingly is called `ng-class`. We need to supply ng-class an object with the names of the class we want to add as the key, and with a variable from the scope that we want to evaluate as the value. If it evaluates as true, the class name will be added. If it's false, it won't be. And this will update itself dynamically as the scope variable we're evaluating changes. In our case this will look like so:
 
     <li ng-repeat="todo in todos track by $index" ng-class="{completed: todo.completed}">
 
@@ -189,10 +189,10 @@ So now we having a working application, we can set about making it look prettier
 
 ### Further functionality
 
-The todo application that this bootcamp is based on, over on [todomvc](http://todomvc.com/architecture-examples/angularjs/), is somewhat more sophisticated that our app as it currently stands. Go have a look at the functionality of that app and see if you can think about or even start building in some of those features. Note that you may have to alter some of your exisiting code as well - it's probably a good idea to do a commit of your working app (with git) before starting to build in new features. Here are some ideas for features to add:
+The todo application that this bootcamp is based on, over on [todomvc](http://todomvc.com/architecture-examples/angularjs/), is somewhat more sophisticated than our app as it currently stands. Go have a look at the functionality of that app and see if you can think about or even start building in some of those features. Note that you may have to alter some of your existing code as well - it's probably a good idea to do a commit of your working app (with git) before starting to build in new features. Here are some ideas for features to add:
 
 * Filters to change if you want to see all todos, only uncompleted todos, or only completed todos
-* A count of how many uncompleted todos are still outstnading at the bottom of the list
+* A count of how many uncompleted todos are still outstanding at the bottom of the list
 * A button that removes all todos that are marked as completed
 * The ability to edit a todo
 * The ability to mark a todo as 'urgent'
