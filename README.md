@@ -120,7 +120,7 @@ Next up, removing a todo, seeing as a list we can only ever add things to and ne
 
 For this reason, whenever we call the function, we will have to pass it an argument to tell it what todo we want to remove. The logical place to call this function from, then, is inside our list of todos. We'll give each todo a button that the user can click to remove it. So let's modify our template to add that:
 
-    <li ng-repeat="todo in todos">
+    <li ng-repeat="todo in todos track by $index">
         {{ todo.title }}
         <button ng-click="removeTodo(todo)">✘</button>
     </li>
@@ -146,7 +146,7 @@ Now we've updated our list of todos, the only thing remaining to do is update ou
 
 Our todo application can now add and remove todos. Another bit of functionality the might be nice would be the abilty to 'cross off' items without removing them totally - that's a much better way of showing that we have gotten something done! For this feature, we will obviously need a control on the page for each todo that we can interact with to mark it completed. We could use another button, but perhaps a better fit is a checkbox that we can tick to indicate that something is done. Let's modify the list block in our `index.html` to include this checkbox:
 
-    <li ng-repeat="todo in todos">
+    <li ng-repeat="todo in todos track by $index">
         <label>
             <input type="checkbox">
             {{ todo.title }}
@@ -168,7 +168,7 @@ Great! We now have a way fo making the completed propety true or false by checki
 
 In order for that to work, we're going to need to get that `completed` class into the HTML for that todo item in the list. We can do this using another Angular directive which is design to help us conditionally add classes to DOM elements, which unsuprisingly is called `ng-class`. We need to supply ng-class an object with the names of the classes as the properties, with a variable in the scope we want to evaluate as the value. If it evaluates as true, the class name will be added. If it's false, it won't be. And this will update itself dynamically as the scope variable we're evaluating changes. In our case this will look like so:
 
-    <li ng-repeat="todo in todos" ng-class="{completed: todo.completed}">
+    <li ng-repeat="todo in todos track by $index" ng-class="{completed: todo.completed}">
 
 That should work. Unfortunately, we have one bug... if we mark something as completed, and refresh the page, it won't remember that we marked it as completed. That's because we're not updating localStorage when something gets ticked or unticked. There are a few ways of making sure the stored version of the todos gets updates, but probably the simplest is for us to add one more function, that gets called whenever the checkbox value gets updated, like so:
 
